@@ -33,8 +33,11 @@ jobs:
           REPOSITORY: ragavan1
           IMAGE_TAG: latest
       - name: Docker build image 
-        run: docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+        run: 
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
       - name: Push Docker image to registry
-        run: docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+        run: 
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       - name: pull Docker image to registry
-        run: docker pull $REGISTRY/$REPOSITORY:$IMAGE_TAG
+        run: 
+          docker pull $REGISTRY/$REPOSITORY:$IMAGE_TAG
