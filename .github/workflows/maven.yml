@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: GITHUB PUSH TO ECR REGESTRY1234
+name: GITHUB PUSH TO ECR REGESTRYs
 
 on:
   push:
@@ -32,9 +32,9 @@ jobs:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ragavan1
           IMAGE_TAG: latest
-        run:
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-
-          docker pull $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      - name: Docker build image 
+        run: docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+      - name: Push Docker image to registry
+        run: docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      - name: pull Docker image to registry
+        run: docker pull $REGISTRY/$REPOSITORY:$IMAGE_TAG
