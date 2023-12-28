@@ -1,9 +1,9 @@
-name: Build and Test with Docker
+name: Java Build and Test with Docker
 
 on:
   push:
     branches:
-      - master  # Modify this according to your branch
+      - master  # Modify this according to your branch name
 
 jobs:
   build:
@@ -13,8 +13,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Compile Java
+        run: javac HelloWorld.java
+
       - name: Build Docker image
-        run: docker build -t hello-world-app .
+        run: docker build -t java-hello-world .
 
       - name: Run Docker container and test
-        run: docker run hello-world-app
+        run: docker run java-hello-world
