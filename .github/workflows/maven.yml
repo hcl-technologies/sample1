@@ -1,41 +1,20 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-
-name: GITHUB PUSH TO ECR REGESTRY1
+name: Build and Test with Docker
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main  # Modify this according to your branch name
 
 jobs:
   build:
-    name: Build image
     runs-on: ubuntu-latest
 
     steps:
-      - name: check out code
+      - name: Checkout code
         uses: actions/checkout@v2
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1 # More information on this action can be found below in the 'AWS Credentials' section
-        with:
-         # role-to-assume: arn:aws:iam::123456789012:role/my-github-actions-role
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-          aws-secret-access-key: ${{ secrets.AWS_SECRETS_ACCESS_KEY}}
-          aws-region: ap-southeast-2
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push docker image to Amazon ECR
-        id: build-image
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: ragavan1
-          IMAGE_TAG: latest
-        run: 
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+      - name: Build Docker image
+        run: docker build -t hello-world-app .
 
-          
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-          
-          docker pull $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      - name: Run Docker container and test
+        run: docker run hello-world-app
