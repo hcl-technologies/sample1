@@ -1,11 +1,11 @@
-# Use a base Python image
-FROM python:3.9-slim
+# Use a base Java image
+FROM openjdk:11
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the code into the container
-COPY app.py .
+# Copy the compiled Java application to the container
+COPY HelloWorld.class .
 
-# Run the Python script
-CMD ["python", "app.py"]
+# Run the Java application
+CMD ["java", "HelloWorld"]
